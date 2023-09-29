@@ -1,57 +1,225 @@
-
 #include "Calculator.h"
 #include <iostream>
+#include <stdexcept>
+#include <cassert>
 #include <cmath>
 
-double Calculator::add(double a, double b) {
-    return a + b;
-}
+double Calculator::add(double a, double b)
+{
+    double result;
+    std::exception *exception = nullptr;
 
-double Calculator::subtract(double a, double b) {
-    return a - b;
-}
-
-double Calculator::multiply(double a, double b) {
-    return a * b;
-}
-
-double Calculator::divide(double a, double b) {
-    if (b == 0) {
-        throw std::invalid_argument("Division by zero");
+    if (std::isnan(a) || std::isnan(b))
+    {
+        exception = new std::invalid_argument("Input is NaN");
     }
-    return a / b;
-}
-
-double Calculator::percentage(double num, double percent) {
-    return (num * percent) / 100.0;
-}
-
-
-double Calculator::sqrt(double num) {
-    if (num < 0) {
-        throw std::invalid_argument("Square root of a negative number");
+    else
+    {
+        result = a + b;
     }
-    return std::sqrt(num);
-}
 
-double Calculator::square(double num) {
-    return num * num;
-}
-
-double Calculator::power(double base, double exponent) {
-    return std::pow(base, exponent);
-}
-
-double Calculator::ln(double num) {
-    if (num <= 0) {
-        throw std::invalid_argument("Natural logarithm of a non-positive number");
+    if (exception)
+    {
+        std::cerr << "Error in add(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
     }
-    return std::log(num);
+
+    return result;
 }
 
-double Calculator::log(double num, double base) {
-    if (num <= 0 || base <= 0 || base == 1) {
-        throw std::invalid_argument("Logarithm with invalid arguments");
+double Calculator::subtract(double a, double b)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || std::isnan(b))
+    {
+        exception = new std::invalid_argument("Input is NaN");
     }
-    return std::log(num) / std::log(base);
+    else
+    {
+        result = a - b;
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in subtract(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::multiply(double a, double b)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || std::isnan(b))
+    {
+        exception = new std::invalid_argument("Input is NaN");
+    }
+    else
+    {
+        result = a * b;
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in multiply(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::divide(double a, double b)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || std::isnan(b))
+    {
+        exception = new std::invalid_argument("Input is NaN");
+    }
+    else if (b == 0)
+    {
+        exception = new std::runtime_error("Division by zero");
+    }
+    else
+    {
+        result = a / b;
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in divide(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::percentage(double a, double b)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || std::isnan(b) || b == 0)
+    {
+        exception = new std::invalid_argument("Invalid input for percentage calculation");
+    }
+    else
+    {
+        result = (a / b) * 100.0;
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in percentage(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::sqrt(double a)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || a < 0)
+    {
+        exception = new std::invalid_argument("Invalid input for square root");
+    }
+    else
+    {
+        result = std::sqrt(a);
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in squareRoot(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::power(double base, double exponent)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(base) || std::isnan(exponent))
+    {
+        exception = new std::invalid_argument("Input is NaN");
+    }
+    else
+    {
+        result = std::pow(base, exponent);
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in power(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::ln(double a)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(a) || a <= 0)
+    {
+        exception = new std::invalid_argument("Invalid input for natural logarithm");
+    }
+    else
+    {
+        result = std::log(a);
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in naturalLog(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
+}
+
+double Calculator::log(double base, double a)
+{
+    double result;
+    std::exception *exception = nullptr;
+
+    if (std::isnan(base) || std::isnan(a) || base <= 0 || a <= 0)
+    {
+        exception = new std::invalid_argument("Invalid input for logarithm");
+    }
+    else
+    {
+        result = std::log(a) / std::log(base);
+    }
+
+    if (exception)
+    {
+        std::cerr << "Error in log(): " << exception->what() << std::endl;
+        delete exception;
+        throw;
+    }
+
+    return result;
 }
